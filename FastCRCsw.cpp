@@ -98,6 +98,24 @@ uint8_t FastCRC8::smbus(const uint8_t *data, const uint16_t datalen)
   return smbus_upd(data, datalen);
 }
 
+uint8_t FastCRC8::f12_upd(const uint8_t *data, uint16_t datalen)
+{
+	uint8_t crc = seed;
+	if (datalen) do {
+		crc = pgm_read_byte(&crc_table_f12[crc ^ *data]);
+		data++;
+	} while (--datalen);
+	seed = crc;
+	return crc;
+}
+
+uint8_t FastCRC8::f12(const uint8_t *data, const uint16_t datalen)
+{
+  // poly=0x1D init=0x60 refin=false refout=false xorout=0x00 check=0xf4
+  seed = 0x60;
+  return f12_upd(data, datalen);
+}
+
 /** MAXIM 8-Bit CRC
  * equivalent to _crc_ibutton_update() in crc16.h from avr_libc
  * @param data Pointer to Data
