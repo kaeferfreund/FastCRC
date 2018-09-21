@@ -84,6 +84,7 @@ class FastCRC8
 {
 public:
   FastCRC8();
+  uint8_t f12(const uint8_t *data, const uint16_t datalen);		  // bmw f12 message
   uint8_t smbus(const uint8_t *data, const uint16_t datalen);		// Alias CRC-8
   uint8_t maxim(const uint8_t *data, const uint16_t datalen);		// Equivalent to _crc_ibutton_update() in crc16.h from avr_libc
   
